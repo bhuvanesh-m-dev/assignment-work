@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocol Flow · Internet & HTML</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f4f7fc; color: #0b1a2f; padding-top: 70px; }
+    body.dark { background: #0b1a2f; color: #e8edf5; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(255,255,255,0.85); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px; z-index: 999;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    body.dark .navbar { background: rgba(11,26,47,0.9); border-bottom: 1px solid #2a3a55; }
+    .nav-links { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .nav-btn {
+      background: transparent; border: none; padding: 8px 14px; border-radius: 40px;
+      font-weight: 600; font-size: 0.85rem; cursor: pointer; color: #1a314e;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    body.dark .nav-btn { color: #cbd5e1; }
+    .nav-btn:hover { background: rgba(0,80,200,0.08); }
+    .nav-btn.active { background: #0a58ca; color: white !important; }
+    .theme-toggle {
+      background: #eef2f6; border: none; width: 40px; height: 40px;
+      border-radius: 40px; font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    body.dark .theme-toggle { background: #253b5a; color: #f0c94b; }
+
+    .card {
+      background: rgba(255,255,255,0.7); backdrop-filter: blur(4px);
+      border-radius: 28px; padding: 28px 30px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+      border: 1px solid rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+    }
+    body.dark .card { background: rgba(22,40,62,0.7); border-color: #2a405a; }
+
+    .flow-row {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: center; gap: 12px 20px;
+      margin: 24px 0;
+    }
+    .flow-step {
+      background: white; padding: 12px 24px; border-radius: 60px;
+      font-weight: 600; border: 1px solid #d0dbe9;
+      animation: pulseStep 2.8s infinite;
+    }
+    body.dark .flow-step { background: #1f3653; border-color: #34517a; }
+    .flow-arrow { font-size: 1.8rem; color: #6b89b0; }
+    @keyframes pulseStep {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); background: #e4edfa; }
+    }
+    body.dark @keyframes pulseStep { 50% { background: #28486f; } }
+
+    .btn-secondary {
+      background: #eef2f8; padding: 8px 20px; border-radius: 60px;
+      border: 1px solid #d0dbe9; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    body.dark .btn-secondary { background: #1f3653; border-color: #34517a; color: #cbd5e1; }
+
+    .footer { margin-top: 40px; padding: 24px 0; border-top: 1px solid #dce3ed; text-align: center; font-size: 0.9rem; }
+    body.dark .footer { border-top-color: #27405e; }
+
+    @media (max-width:720px){ .navbar { flex-wrap: wrap; height: auto; padding: 8px 12px; } .nav-btn { font-size:0.7rem; padding:4px 10px; } }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <span style="font-weight:800; font-size:1.2rem;">🌐 Learn</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Home</a>
+      <a href="mindmap.html" class="nav-btn"><i class="fas fa-sitemap"></i> MindMap</a>
+      <a href="protocols.html" class="nav-btn"><i class="fas fa-network-wired"></i> Protocols</a>
+      <a href="flow.html" class="nav-btn active"><i class="fas fa-arrow-right-arrow-left"></i> Flow</a>
+      <a href="html-intro.html" class="nav-btn"><i class="fas fa-code"></i> HTML</a>
+      <a href="tags.html" class="nav-btn"><i class="fas fa-table"></i> Tags</a>
+      <a href="playground.html" class="nav-btn"><i class="fas fa-pen"></i> Play</a>
+      <a href="quiz.html" class="nav-btn"><i class="fas fa-question-circle"></i> Quiz</a>
+      <a href="results.html" class="nav-btn"><i class="fas fa-chart-simple"></i> Results</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+  </nav>
+
+  <div class="container" style="margin-top:12px;">
+    <div class="card">
+      <h2><i class="fas fa-arrow-right-arrow-left"></i> Protocol Flow</h2>
+      <div class="flow-row">
+        <span class="flow-step"><i class="fas fa-user"></i> User</span><span class="flow-arrow">→</span>
+        <span class="flow-step"><i class="fas fa-globe"></i> Browser</span><span class="flow-arrow">→</span>
+        <span class="flow-step"><i class="fas fa-book"></i> DNS</span><span class="flow-arrow">→</span>
+        <span class="flow-step"><i class="fas fa-server"></i> Server</span><span class="flow-arrow">→</span>
+        <span class="flow-step"><i class="fas fa-code"></i> HTML Response</span><span class="flow-arrow">→</span>
+        <span class="flow-step"><i class="fas fa-desktop"></i> Browser</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center;">
+        <div class="card" style="flex:1; min-width:140px;"><strong>1. User</strong> types URL</div>
+        <div class="card" style="flex:1; min-width:140px;"><strong>2. Browser</strong> checks cache</div>
+        <div class="card" style="flex:1; min-width:140px;"><strong>3. DNS</strong> resolves domain → IP</div>
+        <div class="card" style="flex:1; min-width:140px;"><strong>4. Server</strong> processes request</div>
+        <div class="card" style="flex:1; min-width:140px;"><strong>5. HTML</strong> sent back & rendered</div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <a href="protocols.html" class="btn-secondary"><i class="fas fa-arrow-left"></i> Protocols</a>
+      <a href="html-intro.html" class="btn-secondary">Next: HTML <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <footer class="footer container">
+    <p>Made with <i class="fas fa-heart" style="color:#e74c3c;"></i> HTML, CSS, JavaScript and Curiosity.</p>
+    <p style="opacity:0.7; font-size:0.9rem;">© 2026 - Present Bhuvanesh M · <span id="footerStudent">Alex Rivera</span></p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      toggle.innerHTML = body.classList.contains('dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark') { body.classList.add('dark'); toggle.innerHTML = '<i class="fas fa-sun"></i>'; }
+    document.getElementById('footerStudent').textContent = localStorage.getItem('studentName') || 'Alex Rivera';
+  </script>
+</body>
+</html>
