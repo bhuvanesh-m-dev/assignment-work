@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Tags · Complete Reference</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f4f7fc;
+      color: #0b1a2f;
+      padding-top: 70px;
+      transition: background 0.2s;
+    }
+    body.dark { background: #0b1a2f; color: #e8edf5; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* ----- Navbar (shared) ----- */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      z-index: 999;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    body.dark .navbar {
+      background: rgba(11,26,47,0.9);
+      border-bottom: 1px solid #2a3a55;
+    }
+    .nav-links {
+      display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+    }
+    .nav-btn {
+      background: transparent; border: none;
+      padding: 8px 14px; border-radius: 40px;
+      font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; color: #1a314e;
+      transition: 0.2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    body.dark .nav-btn { color: #cbd5e1; }
+    .nav-btn:hover { background: rgba(0,80,200,0.08); }
+    .nav-btn.active { background: #0a58ca; color: white !important; }
+    .theme-toggle {
+      background: #eef2f6; border: none;
+      width: 40px; height: 40px; border-radius: 40px;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    body.dark .theme-toggle { background: #253b5a; color: #f0c94b; }
+
+    /* ----- Cards & Layout ----- */
+    .card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 28px 30px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.04);
+      border: 1px solid rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+    }
+    body.dark .card {
+      background: rgba(22, 40, 62, 0.7);
+      border-color: #2a405a;
+    }
+
+    /* Table Styles */
+    .table-wrapper { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #dce3ed;
+    }
+    body.dark th, body.dark td { border-bottom-color: #2a405a; }
+    th {
+      background: #dce3ed;
+      font-weight: 600;
+    }
+    body.dark th { background: #1f3653; }
+    tr:hover { background: rgba(10, 88, 202, 0.04); }
+    body.dark tr:hover { background: rgba(30, 109, 240, 0.08); }
+
+    /* Tag Example */
+    .tag-example {
+      background: #f0f5fd;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+    body.dark .tag-example { background: #1f3653; }
+
+    /* Live Preview */
+    .live-preview {
+      border: 2px dashed #b8cade;
+      border-radius: 24px;
+      padding: 20px;
+      min-height: 100px;
+      background: white;
+      margin-top: 12px;
+    }
+    body.dark .live-preview { background: #10273f; border-color: #3a5a7a; }
+
+    .btn-secondary {
+      background: #eef2f8; padding: 8px 20px; border-radius: 60px;
+      border: 1px solid #d0dbe9; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    body.dark .btn-secondary { background: #1f3653; border-color: #34517a; color: #cbd5e1; }
+
+    .footer {
+      margin-top: 40px; padding: 24px 0;
+      border-top: 1px solid #dce3ed;
+      text-align: center; font-size: 0.9rem;
+    }
+    body.dark .footer { border-top-color: #27405e; }
+
+    @media (max-width: 720px) {
+      .navbar { flex-wrap: wrap; height: auto; padding: 8px 12px; gap: 4px; }
+      .nav-btn { font-size: 0.7rem; padding: 4px 10px; }
+      th, td { padding: 8px 10px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar">
+    <span style="font-weight:800; font-size:1.2rem;">🌐 Learn</span>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Home</a>
+      <a href="mindmap.html" class="nav-btn"><i class="fas fa-sitemap"></i> MindMap</a>
+      <a href="ip.html" class="nav-btn"><i class="fas fa-network-wired"></i> Protocols</a>
+      <a href="flow.html" class="nav-btn"><i class="fas fa-arrow-right-arrow-left"></i> Flow</a>
+      <a href="html-intro.html" class="nav-btn"><i class="fas fa-code"></i> HTML</a>
+      <a href="tags.html" class="nav-btn active"><i class="fas fa-table"></i> Tags</a>
+      <a href="playground.html" class="nav-btn"><i class="fas fa-pen"></i> Play</a>
+      <a href="quiz.html" class="nav-btn"><i class="fas fa-question-circle"></i> Quiz</a>
+      <a href="results.html" class="nav-btn"><i class="fas fa-chart-simple"></i> Results</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container" style="margin-top:12px;">
+    <!-- Header -->
+    <div class="card" style="text-align:center; background: linear-gradient(145deg, #f0f7ff, #ffffff);">
+      <h1 style="font-size:2.8rem; font-weight:800;">📄 HTML Tags Reference</h1>
+      <p style="font-size:1.2rem; margin:10px 0;">Complete documentation with examples and live previews</p>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:10px;">
+        <span class="tag-example">&lt;h1&gt;</span>
+        <span class="tag-example">&lt;p&gt;</span>
+        <span class="tag-example">&lt;a&gt;</span>
+        <span class="tag-example">&lt;img&gt;</span>
+        <span class="tag-example">&lt;table&gt;</span>
+        <span class="tag-example">&lt;form&gt;</span>
+        <span class="tag-example">&lt;ul&gt;</span>
+        <span class="tag-example">&lt;ol&gt;</span>
+      </div>
+    </div>
+
+    <!-- Complete Tags Table -->
+    <div class="card">
+      <h2><i class="fas fa-list-ul"></i> Complete HTML Tag Reference</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tag</th>
+              <th>Description</th>
+              <th>Example</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>&lt;h1&gt; - &lt;h6&gt;</td><td>Headings (level 1 to 6)</td><td>&lt;h1&gt;Title&lt;/h1&gt;</td><td>Page titles, sections</td></tr>
+            <tr><td>&lt;p&gt;</td><td>Paragraph</td><td>&lt;p&gt;Text&lt;/p&gt;</td><td>Blocks of text</td></tr>
+            <tr><td>&lt;a&gt;</td><td>Hyperlink</td><td>&lt;a href="#"&gt;link&lt;/a&gt;</td><td>Navigation</td></tr>
+            <tr><td>&lt;img&gt;</td><td>Image</td><td>&lt;img src="pic.jpg" alt="desc"&gt;</td><td>Visual content</td></tr>
+            <tr><td>&lt;table&gt;</td><td>Table</td><td>&lt;table&gt;...&lt;/table&gt;</td><td>Data display</td></tr>
+            <tr><td>&lt;form&gt;</td><td>Form</td><td>&lt;form&gt;...&lt;/form&gt;</td><td>User input</td></tr>
+            <tr><td>&lt;video&gt;</td><td>Video</td><td>&lt;video src="..." controls&gt;</td><td>Media</td></tr>
+            <tr><td>&lt;ul&gt;</td><td>Unordered List</td><td>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</td><td>Bullet lists</td></tr>
+            <tr><td>&lt;ol&gt;</td><td>Ordered List</td><td>&lt;ol&gt;&lt;li&gt;Step 1&lt;/li&gt;&lt;/ol&gt;</td><td>Numbered lists</td></tr>
+            <tr><td>&lt;div&gt;</td><td>Division / Container</td><td>&lt;div&gt;...&lt;/div&gt;</td><td>Layout grouping</td></tr>
+            <tr><td>&lt;span&gt;</td><td>Inline Container</td><td>&lt;span&gt;text&lt;/span&gt;</td><td>Inline styling</td></tr>
+            <tr><td>&lt;strong&gt;</td><td>Bold text</td><td>&lt;strong&gt;Important&lt;/strong&gt;</td><td>Emphasis</td></tr>
+            <tr><td>&lt;em&gt;</td><td>Italic text</td><td>&lt;em&gt;Emphasized&lt;/em&gt;</td><td>Emphasis</td></tr>
+            <tr><td>&lt;br&gt;</td><td>Line Break</td><td>Text&lt;br&gt;New line</td><td>Force line break</td></tr>
+            <tr><td>&lt;hr&gt;</td><td>Horizontal Rule</td><td>&lt;hr&gt;</td><td>Section divider</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Live Preview Section -->
+    <div class="card">
+      <h2><i class="fas fa-eye"></i> Live Tag Preview</h2>
+      <p>See how HTML tags render in real-time:</p>
+      <div style="margin: 12px 0;">
+        <textarea id="liveTagInput" rows="4" style="width:100%; padding:12px; border-radius:16px; border:1px solid #d0dbe9; font-family:'Courier New',monospace; background:#fafcff; resize:vertical;">
+<h2>Hello World</h2>
+<p>This is a <strong>live preview</strong> of HTML tags.</p>
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>
+        </textarea>
+      </div>
+      <div class="live-preview" id="liveTagPreview"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <a href="html-intro.html" class="btn-secondary"><i class="fas fa-arrow-left"></i> HTML Intro</a>
+      <a href="playground.html" class="btn-secondary">Next: Playground <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer container">
+    <p>Made with <i class="fas fa-heart" style="color:#e74c3c;"></i> HTML, CSS, JavaScript and Curiosity.</p>
+    <p style="opacity:0.7; font-size:0.9rem;">© 2026 - Present Bhuvanesh M · <span id="footerStudent">Alex Rivera</span></p>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      toggle.innerHTML = body.classList.contains('dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+      toggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    // Student name
+    const name = localStorage.getItem('studentName') || 'Alex Rivera';
+    document.getElementById('footerStudent').textContent = name;
+
+    // Live preview
+    const tagInput = document.getElementById('liveTagInput');
+    const previewBox = document.getElementById('liveTagPreview');
+    function updateTagPreview() {
+      previewBox.innerHTML = tagInput.value;
+    }
+    tagInput.addEventListener('input', updateTagPreview);
+    updateTagPreview();
+  </script>
+</body>
+</html>
