@@ -3,48 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz · Internet & HTML</title>
+  <title>Extended Quiz · Internet & HTML</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f4f7fc; color: #0b1a2f; padding-top: 70px; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #f4f7fc;
+      color: #0b1a2f;
+      padding-top: 70px;
+      transition: background 0.2s;
+    }
     body.dark { background: #0b1a2f; color: #e8edf5; }
     a { text-decoration: none; color: inherit; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
+    /* ----- Navbar (shared) ----- */
     .navbar {
       position: fixed; top: 0; left: 0; width: 100%;
-      background: rgba(255,255,255,0.85); backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px; height: 64px; z-index: 999;
+      padding: 0 24px; height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      z-index: 999;
       border-bottom: 1px solid rgba(0,0,0,0.03);
     }
-    body.dark .navbar { background: rgba(11,26,47,0.9); border-bottom: 1px solid #2a3a55; }
-    .nav-links { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    body.dark .navbar {
+      background: rgba(11,26,47,0.9);
+      border-bottom: 1px solid #2a3a55;
+    }
+    .nav-links {
+      display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+    }
     .nav-btn {
-      background: transparent; border: none; padding: 8px 14px; border-radius: 40px;
-      font-weight: 600; font-size: 0.85rem; cursor: pointer; color: #1a314e;
+      background: transparent; border: none;
+      padding: 8px 14px; border-radius: 40px;
+      font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; color: #1a314e;
+      transition: 0.2s;
       display: inline-flex; align-items: center; gap: 6px;
     }
     body.dark .nav-btn { color: #cbd5e1; }
     .nav-btn:hover { background: rgba(0,80,200,0.08); }
     .nav-btn.active { background: #0a58ca; color: white !important; }
     .theme-toggle {
-      background: #eef2f6; border: none; width: 40px; height: 40px;
-      border-radius: 40px; font-size: 1.2rem; cursor: pointer;
+      background: #eef2f6; border: none;
+      width: 40px; height: 40px; border-radius: 40px;
+      font-size: 1.2rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
     }
     body.dark .theme-toggle { background: #253b5a; color: #f0c94b; }
 
+    /* ----- Cards & Layout ----- */
     .card {
-      background: rgba(255,255,255,0.7); backdrop-filter: blur(4px);
-      border-radius: 28px; padding: 28px 30px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 28px 30px;
       box-shadow: 0 12px 40px rgba(0,0,0,0.04);
       border: 1px solid rgba(255,255,255,0.5);
       margin-bottom: 24px;
     }
-    body.dark .card { background: rgba(22,40,62,0.7); border-color: #2a405a; }
+    body.dark .card {
+      background: rgba(22, 40, 62, 0.7);
+      border-color: #2a405a;
+    }
 
+    /* Quiz Styles */
     .quiz-option {
       display: block; padding: 14px 20px; margin: 10px 0;
       background: #f0f5fd; border-radius: 60px;
@@ -71,26 +97,52 @@
     }
     body.dark .btn-secondary { background: #1f3653; border-color: #34517a; color: #cbd5e1; }
 
-    .footer { margin-top: 40px; padding: 24px 0; border-top: 1px solid #dce3ed; text-align: center; font-size: 0.9rem; }
-    body.dark .footer { border-top-color: #27405e; }
-
+    /* Certificate & Share */
     .result-certificate {
-      border: 4px double #b89b6b; padding: 30px 20px;
-      border-radius: 40px; background: #fefaf0;
-      text-align: center; max-width: 480px; margin: 0 auto;
+      border: 4px double #b89b6b;
+      padding: 30px 20px;
+      border-radius: 40px;
+      background: #fefaf0;
+      text-align: center;
+      max-width: 520px;
+      margin: 0 auto;
     }
     body.dark .result-certificate { background: #1f334f; border-color: #b89b6b; }
 
-    @media (max-width:720px){ .navbar { flex-wrap: wrap; height: auto; padding: 8px 12px; } .nav-btn { font-size:0.7rem; padding:4px 10px; } }
+    .share-btn {
+      padding: 10px 22px; border-radius: 60px; border: none;
+      font-weight: 600; color: white;
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: pointer; transition: 0.2s;
+    }
+    .share-btn.whatsapp { background: #25D366; }
+    .share-btn.linkedin { background: #0A66C2; }
+    .share-btn.twitter { background: #000; }
+    .share-btn.copy { background: #4a6a8b; }
+    .share-btn.download { background: #1f3a5e; }
+    .share-btn:hover { transform: scale(0.97); opacity: 0.9; }
+
+    .footer {
+      margin-top: 40px; padding: 24px 0;
+      border-top: 1px solid #dce3ed;
+      text-align: center; font-size: 0.9rem;
+    }
+    body.dark .footer { border-top-color: #27405e; }
+
+    @media (max-width: 720px) {
+      .navbar { flex-wrap: wrap; height: auto; padding: 8px 12px; gap: 4px; }
+      .nav-btn { font-size: 0.7rem; padding: 4px 10px; }
+    }
   </style>
 </head>
 <body>
+  <!-- ===== NAVIGATION ===== -->
   <nav class="navbar">
     <span style="font-weight:800; font-size:1.2rem;">🌐 Learn</span>
     <div class="nav-links">
       <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Home</a>
       <a href="mindmap.html" class="nav-btn"><i class="fas fa-sitemap"></i> MindMap</a>
-      <a href="protocols.html" class="nav-btn"><i class="fas fa-network-wired"></i> Protocols</a>
+      <a href="ip.html" class="nav-btn"><i class="fas fa-network-wired"></i> Protocols</a>
       <a href="flow.html" class="nav-btn"><i class="fas fa-arrow-right-arrow-left"></i> Flow</a>
       <a href="html-intro.html" class="nav-btn"><i class="fas fa-code"></i> HTML</a>
       <a href="tags.html" class="nav-btn"><i class="fas fa-table"></i> Tags</a>
@@ -101,34 +153,55 @@
     <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
   </nav>
 
+  <!-- ===== MAIN CONTENT ===== -->
   <div class="container" style="margin-top:12px;">
     <div class="card">
-      <h2><i class="fas fa-question-circle"></i> Quiz Challenge</h2>
+      <h2><i class="fas fa-question-circle"></i> Extended Quiz Challenge</h2>
+      <p style="margin-bottom:16px;">Test your knowledge with 25 questions on Internet Protocols and HTML.</p>
+
+      <!-- Setup -->
       <div id="quizSetup">
-        <label>Your name: <input type="text" id="quizUserName" placeholder="Enter name" value="Alex Rivera" style="padding:10px 16px; border-radius:40px; border:1px solid #d0dbe9;"></label>
-        <button class="btn-primary" id="startQuizBtn"><i class="fas fa-play"></i> Start Quiz</button>
+        <label style="font-weight:600;">Your Name:
+          <input type="text" id="quizUserName" placeholder="Enter your name" value="Alex Rivera"
+                 style="padding:10px 16px; border-radius:40px; border:1px solid #d0dbe9; margin-left:8px; min-width:200px;">
+        </label>
+        <button class="btn-primary" id="startQuizBtn" style="margin-left:12px;">
+          <i class="fas fa-play"></i> Start 25-Question Quiz
+        </button>
       </div>
+
+      <!-- Quiz Area -->
       <div id="quizArea" style="display:none;">
-        <div style="display:flex; justify-content:space-between;"><span>Question <span id="qNum">1</span>/10</span><span class="timer-box" id="timerDisplay">02:00</span></div>
-        <h3 id="qText">Loading...</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-weight:600;">Question <span id="qNum">1</span>/25</span>
+          <span class="timer-box" id="timerDisplay">05:00</span>
+        </div>
+        <h3 id="qText" style="margin:16px 0;">Loading...</h3>
         <div id="qOptions"></div>
-        <button class="btn-primary" id="nextQBtn" style="margin-top:12px;">Next <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-primary" id="nextQBtn" style="margin-top:16px;">
+          Next <i class="fas fa-arrow-right"></i>
+        </button>
       </div>
+
+      <!-- Results -->
       <div id="quizResult" style="display:none; margin-top:20px;"></div>
     </div>
+
+    <!-- Navigation -->
     <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
       <a href="playground.html" class="btn-secondary"><i class="fas fa-arrow-left"></i> Playground</a>
       <a href="results.html" class="btn-secondary">Next: Results <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer container">
     <p>Made with <i class="fas fa-heart" style="color:#e74c3c;"></i> HTML, CSS, JavaScript and Curiosity.</p>
     <p style="opacity:0.7; font-size:0.9rem;">© 2026 - Present Bhuvanesh M · <span id="footerStudent">Alex Rivera</span></p>
   </footer>
 
   <script>
-    // theme
+    // Theme toggle
     const toggle = document.getElementById('themeToggle');
     const body = document.body;
     toggle.addEventListener('click', () => {
@@ -136,10 +209,17 @@
       toggle.innerHTML = body.classList.contains('dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
       localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
     });
-    if (localStorage.getItem('theme') === 'dark') { body.classList.add('dark'); toggle.innerHTML = '<i class="fas fa-sun"></i>'; }
-    document.getElementById('footerStudent').textContent = localStorage.getItem('studentName') || 'Alex Rivera';
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+      toggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
 
-    // QUIZ ENGINE
+    // Student name
+    const name = localStorage.getItem('studentName') || 'Alex Rivera';
+    document.getElementById('footerStudent').textContent = name;
+    document.getElementById('quizUserName').value = name;
+
+    // ===== QUIZ ENGINE (25 Questions) =====
     const quizData = [
       { q: 'What does IP stand for?', opts: ['Internet Protocol','Internal Program','Integrated Process','Interchange Protocol'], ans: 0 },
       { q: 'Which protocol is used for web browsing?', opts: ['FTP','HTTP','SMTP','DNS'], ans: 1 },
@@ -150,13 +230,34 @@
       { q: 'What is the correct HTML element for the largest heading?', opts: ['<head>','<h6>','<h1>','<heading>'], ans: 2 },
       { q: 'Which attribute specifies an image source?', opts: ['src','href','alt','link'], ans: 0 },
       { q: 'What does SMTP handle?', opts: ['File transfer','Email sending','Web browsing','Name resolution'], ans: 1 },
-      { q: 'Which protocol is used for secure communication?', opts: ['HTTP','FTP','HTTPS','SMTP'], ans: 2 }
+      { q: 'Which protocol is used for secure communication?', opts: ['HTTP','FTP','HTTPS','SMTP'], ans: 2 },
+      { q: 'What is the full form of TCP?', opts: ['Transmission Control Protocol','Transfer Client Protocol','Transport Central Protocol','Transmission Central Process'], ans: 0 },
+      { q: 'Which tag is used for unordered lists?', opts: ['<ul>','<ol>','<li>','<list>'], ans: 0 },
+      { q: 'What does the <p> tag create?', opts: ['Paragraph','Link','Image','Heading'], ans: 0 },
+      { q: 'Which protocol transfers files between computers?', opts: ['FTP','SMTP','HTTP','DNS'], ans: 0 },
+      { q: 'What is the correct HTML for a table row?', opts: ['<tr>','<td>','<th>','<table>'], ans: 0 },
+      { q: 'Which attribute is used for hyperlink URL?', opts: ['href','src','link','url'], ans: 0 },
+      { q: 'What does UDP stand for?', opts: ['User Datagram Protocol','Universal Data Protocol','Uniform Delivery Protocol','Unified Datagram Process'], ans: 0 },
+      { q: 'Which tag is used for ordered lists?', opts: ['<ol>','<ul>','<li>','<list>'], ans: 0 },
+      { q: 'What is the port number for HTTP?', opts: ['80','443','21','25'], ans: 0 },
+      { q: 'Which tag creates a line break?', opts: ['<br>','<hr>','<break>','<lb>'], ans: 0 },
+      { q: 'What does HTTPS provide?', opts: ['Encryption','Speed','File transfer','Email'], ans: 0 },
+      { q: 'Which tag is used for table headers?', opts: ['<th>','<td>','<tr>','<header>'], ans: 0 },
+      { q: 'What is the correct syntax for an image?', opts: ['<img src="...">','<image src="...">','<img href="...">','<picture src="...">'], ans: 0 },
+      { q: 'Which protocol is used for email?', opts: ['SMTP','FTP','HTTP','DNS'], ans: 0 },
+      { q: 'What does the <strong> tag do?', opts: ['Bold text','Italic text','Underline text','Highlight text'], ans: 0 }
     ];
 
-    let quizState = { started: false, current: 0, score: 0, selected: -1, timer: null, timeLeft: 120, userName: '' };
+    let quizState = { started: false, current: 0, score: 0, selected: -1, timer: null, timeLeft: 300, userName: '' };
     let shuffledQuiz = [];
 
-    function shuffleArray(arr) { for (let i = arr.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
     const startBtn = document.getElementById('startQuizBtn');
     const quizSetupDiv = document.getElementById('quizSetup');
@@ -175,7 +276,9 @@
       localStorage.setItem('studentName', name);
       document.getElementById('footerStudent').textContent = name;
       shuffledQuiz = shuffleArray([...quizData]);
-      quizState.current = 0; quizState.score = 0; quizState.timeLeft = 120;
+      quizState.current = 0;
+      quizState.score = 0;
+      quizState.timeLeft = 300; // 5 minutes
       quizState.started = true;
       quizSetupDiv.style.display = 'none';
       quizArea.style.display = 'block';
@@ -206,7 +309,9 @@
       if (quizState.selected !== -1) return;
       quizState.selected = idx;
       const options = qOptions.querySelectorAll('.quiz-option');
-      options.forEach((el, i) => { if (i === idx) el.classList.add('selected'); });
+      options.forEach((el, i) => {
+        if (i === idx) el.classList.add('selected');
+      });
       if (idx === shuffledQuiz[quizState.current].ans) quizState.score++;
     }
 
@@ -223,73 +328,164 @@
       quizResultDiv.style.display = 'block';
       const total = shuffledQuiz.length;
       const score = quizState.score;
-      const pct = Math.round((score/total)*100);
+      const pct = Math.round((score / total) * 100);
       const pass = pct >= 60;
       const name = quizState.userName;
+      const siteUrl = 'https://bhuvanesh-m-dev.github.io/assignment-work/web-technologies';
+
       let msg = pass ? '🎉 Excellent! You passed!' : '📚 Keep learning. You can retry!';
       if (pct >= 90) msg = '🌟 Outstanding! Mastery level!';
       else if (pct >= 70) msg = '💪 Good job! You know your stuff.';
-      
-      // Save to localStorage for results page
+
+      // Save to localStorage
       localStorage.setItem('lastQuiz', JSON.stringify({ name, score, total, pct }));
-      
-      // Save to leaderboard
       let board = JSON.parse(localStorage.getItem('leaderboard') || '[]');
       board.push({ name, score, total, pct, date: new Date().toLocaleDateString() });
-      board.sort((a,b) => b.pct - a.pct);
-      if (board.length > 20) board = board.slice(0,20);
+      board.sort((a, b) => b.pct - a.pct);
+      if (board.length > 20) board = board.slice(0, 20);
       localStorage.setItem('leaderboard', JSON.stringify(board));
+
+      const shareText = `🌐 Internet Protocols & HTML Quiz\n${name} scored ${score}/${total} (${pct}%)! 🎯\nKeep learning! #DigitalLearning\n\nTake the quiz: ${siteUrl}`;
 
       quizResultDiv.innerHTML = `
         <div class="result-certificate">
           <h2>🏆 Quiz Results</h2>
           <p><strong>${name}</strong></p>
-          <p style="font-size:2rem;">${score}/${total}</p>
-          <p>${pct}% – ${pass ? '✅ Pass' : '❌ Retry'}</p>
+          <p style="font-size:2.8rem; font-weight:700;">${score}/${total}</p>
+          <p style="font-size:1.4rem;">${pct}% – ${pass ? '✅ Pass' : '❌ Retry'}</p>
           <p>${msg}</p>
-          <button class="btn-primary" id="retakeQuizBtn"><i class="fas fa-rotate"></i> Retake Quiz</button>
-          <br><br>
-          <a href="results.html" class="btn-primary" style="background:#0d6efd;">View Results Dashboard</a>
+          <div style="margin:16px 0; padding:8px; background:#eef2f8; border-radius:12px; font-size:0.85rem;">
+            🌐 ${siteUrl}
+          </div>
+          <button class="btn-primary" id="retakeQuizBtn" style="margin:8px 0;">
+            <i class="fas fa-rotate"></i> Retake Quiz
+          </button>
+          <div class="share-btns" style="margin-top:16px;">
+            <button class="share-btn whatsapp" id="shareWA"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+            <button class="share-btn linkedin" id="shareLI"><i class="fab fa-linkedin"></i> LinkedIn</button>
+            <button class="share-btn twitter" id="shareX"><i class="fab fa-x-twitter"></i> X</button>
+            <button class="share-btn copy" id="shareCopy"><i class="fas fa-copy"></i> Copy</button>
+            <button class="share-btn download" id="downloadResult"><i class="fas fa-download"></i> Download PNG</button>
+          </div>
         </div>
       `;
+
+      // Event listeners
       document.getElementById('retakeQuizBtn')?.addEventListener('click', () => {
         quizSetupDiv.style.display = 'block';
         quizArea.style.display = 'none';
         quizResultDiv.style.display = 'none';
         quizState.started = false;
       });
+
+      document.getElementById('shareWA')?.addEventListener('click', () => {
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
+      });
+      document.getElementById('shareLI')?.addEventListener('click', () => {
+        window.open(`https://linkedin.com/sharing/share-offscreen/?url=${encodeURIComponent(siteUrl)}&summary=${encodeURIComponent(shareText)}`, '_blank');
+      });
+      document.getElementById('shareX')?.addEventListener('click', () => {
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`, '_blank');
+      });
+      document.getElementById('shareCopy')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(shareText);
+        alert('Copied!');
+      });
+      document.getElementById('downloadResult')?.addEventListener('click', () => {
+        downloadCertificate(name, score, total, pct, siteUrl);
+      });
+
       if (pct >= 80) launchConfetti();
     }
 
     function startTimer() {
       clearInterval(quizState.timer);
-      quizState.timeLeft = 120;
-      timerDisplay.textContent = '02:00';
+      quizState.timeLeft = 300;
+      timerDisplay.textContent = '05:00';
       quizState.timer = setInterval(() => {
         quizState.timeLeft--;
-        const m = String(Math.floor(quizState.timeLeft/60)).padStart(2,'0');
-        const s = String(quizState.timeLeft%60).padStart(2,'0');
+        const m = String(Math.floor(quizState.timeLeft / 60)).padStart(2, '0');
+        const s = String(quizState.timeLeft % 60).padStart(2, '0');
         timerDisplay.textContent = `${m}:${s}`;
-        if (quizState.timeLeft <= 0) { clearInterval(quizState.timer); alert('Time is up!'); finishQuiz(); }
+        if (quizState.timeLeft <= 0) {
+          clearInterval(quizState.timer);
+          alert('Time is up!');
+          finishQuiz();
+        }
       }, 1000);
     }
 
-    startBtn.addEventListener('click', startQuiz);
-    nextBtn.addEventListener('click', nextQuestion);
+    function downloadCertificate(name, score, total, pct, siteUrl) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 900;
+      canvas.height = 650;
+      const ctx = canvas.getContext('2d');
+
+      // Background
+      const gradient = ctx.createLinearGradient(0, 0, 900, 650);
+      gradient.addColorStop(0, '#fefaf0');
+      gradient.addColorStop(1, '#f0f4ff');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 900, 650);
+
+      // Border
+      ctx.strokeStyle = '#b89b6b';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(20, 20, 860, 610);
+
+      ctx.fillStyle = '#0b1a2f';
+      ctx.font = 'bold 48px Segoe UI';
+      ctx.textAlign = 'center';
+      ctx.fillText('🏆 Certificate of Achievement', 450, 100);
+
+      ctx.font = '28px Segoe UI';
+      ctx.fillText(`Awarded to: ${name}`, 450, 180);
+
+      ctx.font = '24px Segoe UI';
+      ctx.fillText(`Score: ${score}/${total}  (${pct}%)`, 450, 250);
+
+      ctx.fillStyle = pct >= 70 ? '#0a58ca' : '#b24a4a';
+      ctx.font = '26px Segoe UI';
+      ctx.fillText(pct >= 70 ? '✅ Passed' : '📖 Keep learning', 450, 320);
+
+      ctx.fillStyle = '#4a6a8b';
+      ctx.font = '18px Segoe UI';
+      ctx.fillText('Digital Learning Companion', 450, 390);
+
+      ctx.font = '16px Segoe UI';
+      ctx.fillStyle = '#6b89b0';
+      ctx.fillText(`🌐 ${siteUrl}`, 450, 450);
+
+      ctx.font = '16px Segoe UI';
+      ctx.fillStyle = '#8a9bb0';
+      ctx.fillText('© 2026 Bhuvanesh M', 450, 510);
+
+      // QR-like decorative bar
+      ctx.fillStyle = '#0a58ca';
+      ctx.fillRect(150, 550, 600, 4);
+
+      const link = document.createElement('a');
+      link.download = 'certificate.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
 
     function launchConfetti() {
-      const colors = ['#f44336','#e91e63','#9c27b0','#3f51b5','#4caf50','#ffeb3b','#ff9800'];
-      for (let i=0; i<60; i++) {
+      const colors = ['#f44336', '#e91e63', '#9c27b0', '#3f51b5', '#4caf50', '#ffeb3b', '#ff9800'];
+      for (let i = 0; i < 60; i++) {
         const el = document.createElement('div');
         el.style.cssText = `position:fixed; width:10px; height:10px; background:${colors[Math.floor(Math.random()*colors.length)]}; left:${Math.random()*100}vw; top:-10px; border-radius:50%; pointer-events:none; z-index:9999; transition: all 2.5s ease-out;`;
         document.body.appendChild(el);
         requestAnimationFrame(() => {
-          el.style.transform = `translateY(${window.innerHeight+100}px) rotate(${Math.random()*360}deg)`;
+          el.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`;
           el.style.opacity = '0';
         });
         setTimeout(() => el.remove(), 3000);
       }
     }
+
+    startBtn.addEventListener('click', startQuiz);
+    nextBtn.addEventListener('click', nextQuestion);
   </script>
 </body>
 </html>
