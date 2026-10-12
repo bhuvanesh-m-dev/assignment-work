@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personal Portfolio Website — Project Pitch Deck</title>
+<style>
+  :root { --black:#000; --white:#fff; --gray:#bdbdbd; --line:#333; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; width:100%; height:100%; background:var(--black); color:var(--white); font-family:Inter,Arial,Helvetica,sans-serif; }
+  body { overflow:hidden; }
+  .deck { width:100vw; height:100vh; position:relative; }
+  .slide { display:none; position:absolute; inset:0; padding:5.5vh 6vw 7vh; overflow:auto; background:#000; }
+  .slide.active { display:flex; flex-direction:column; }
+  .eyebrow { font-size:clamp(10px,1vw,14px); letter-spacing:.22em; text-transform:uppercase; color:#aaa; }
+  h1,h2,h3,p { margin-top:0; }
+  h1 { font-size:clamp(38px,6.3vw,88px); line-height:.98; letter-spacing:-.055em; margin:20px 0; max-width:950px; }
+  h2 { font-size:clamp(30px,4vw,54px); line-height:1.03; letter-spacing:-.045em; margin:14px 0 24px; }
+  h3 { font-size:clamp(17px,1.7vw,23px); margin-bottom:9px; }
+  p, li { color:#d1d1d1; font-size:clamp(13px,1.25vw,18px); line-height:1.55; }
+  .lead { max-width:730px; font-size:clamp(17px,1.8vw,25px); color:#d6d6d6; }
+  .muted { color:#999; }
+  .rule { width:100%; height:1px; background:#333; margin:18px 0 24px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .panel { border:1px solid #373737; border-radius:18px; padding:20px; background:#050505; }
+  .panel p:last-child { margin-bottom:0; }
+  .icon { width:56px; height:56px; color:#fff; margin-bottom:18px; }
+  .icon svg { width:100%; height:100%; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:5vw; align-items:center; flex:1; }
+  .hero-art { width:100%; max-width:480px; justify-self:end; }
+  .hero-art svg { width:100%; height:auto; }
+  .tags { display:flex; gap:9px; flex-wrap:wrap; margin-top:25px; }
+  .tag { border:1px solid #555; border-radius:999px; padding:8px 13px; color:#eee; font-size:12px; letter-spacing:.04em; }
+  .num { font-size:12px; color:#999; letter-spacing:.16em; }
+  .big-number { font-size:clamp(30px,4vw,55px); font-weight:700; letter-spacing:-.05em; }
+  .flow { display:flex; align-items:stretch; gap:10px; margin-top:22px; }
+  .flow-item { flex:1; border:1px solid #444; border-radius:13px; padding:15px 12px; text-align:center; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+  .arrow { align-self:center; color:#aaa; font-size:23px; }
+  .flow-item strong { font-size:clamp(12px,1.2vw,17px); }
+  .flow-item span { font-size:12px; color:#aaa; margin-top:6px; }
+  .mock-browser { border:1px solid #555; border-radius:18px; overflow:hidden; background:#080808; }
+  .browser-bar { border-bottom:1px solid #333; padding:12px 16px; display:flex; gap:6px; align-items:center; }
+  .dot { width:7px; height:7px; border:1px solid #aaa; border-radius:50%; }
+  .browser-body { padding:22px; }
+  .browser-nav { display:flex; justify-content:space-between; gap:8px; font-size:10px; color:#aaa; text-transform:uppercase; letter-spacing:.1em; }
+  .browser-name { font-size:clamp(23px,3vw,42px); letter-spacing:-.05em; margin:30px 0 10px; font-weight:750; }
+  .browser-line { height:5px; width:75%; background:#444; border-radius:8px; margin:8px 0; }
+  .browser-line.short { width:45%; }
+  .browser-cta { display:inline-block; border:1px solid white; padding:8px 12px; margin-top:13px; font-size:10px; }
+  .mini-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:22px; }
+  .mini-card { height:72px; border:1px solid #444; border-radius:9px; padding:10px; }
+  .mini-card b { display:block; font-size:11px; margin-bottom:7px; }
+  .mini-card span { display:block; width:80%; height:3px; background:#555; }
+  .footer { position:absolute; bottom:22px; left:6vw; right:6vw; display:flex; justify-content:space-between; color:#777; font-size:11px; letter-spacing:.08em; text-transform:uppercase; pointer-events:none; }
+  .fullscreen-button { position:fixed; top:18px; right:22px; z-index:30; background:#000; color:#fff; border:1px solid #777; border-radius:999px; padding:10px 14px; cursor:pointer; font-size:12px; }
+  .fullscreen-button:hover { background:#fff; color:#000; }
+  :fullscreen { background:#000; }
+  :fullscreen .slide { min-height:100vh; }
+  @media (max-width:760px) { .fullscreen-button { top:10px; right:10px; padding:8px 10px; } }
+  .progress { position:fixed; top:0; left:0; height:3px; background:#fff; width:16.66%; z-index:20; transition:width .2s; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:4vw; align-items:center; }
+  .checklist { list-style:none; padding:0; }
+  .checklist li { padding:8px 0 8px 28px; position:relative; border-bottom:1px solid #242424; }
+  .checklist li:before { content:"✓"; position:absolute; left:0; color:#fff; }
+  .outline-art { width:100%; max-width:430px; margin:auto; }
+  .outline-art svg { width:100%; height:auto; }
+  .small { font-size:12px; }
+  a { color:#fff; overflow-wrap:anywhere; }
+  @media (max-width:760px) {
+    .slide { padding:5vh 6vw 9vh; }
+    .hero,.two-col,.grid2,.grid3 { grid-template-columns:1fr; }
+    .hero { gap:12px; }
+    .hero-art { max-width:280px; justify-self:center; }
+    .grid3 { gap:10px; }
+    .panel { padding:15px; }
+    .flow { flex-wrap:wrap; }
+    .flow-item { flex-basis:40%; }
+    .arrow { display:none; }
+    .footer { bottom:12px; font-size:9px; }
+    .controls { right:12px; bottom:10px; }
+  }
+  @media print {
+    html,body { height:auto; overflow:visible; background:#000; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+    .deck { height:auto; }
+    .slide { display:flex !important; position:relative; width:100%; height:100vh; page-break-after:always; overflow:hidden; }
+    .fullscreen-button,.progress { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<main class="deck" aria-label="Personal Portfolio Website presentation">
+
+  <section class="slide active" data-title="Title">
+    <div class="eyebrow">Project Pitch Deck · 01 / 06</div>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Frontend Development</div>
+        <h1>Personal<br>Portfolio<br>Website<span style="color:#888">.</span></h1>
+        <p class="lead">A responsive digital home for a developer’s profile, skills, projects, experience, and contact information.</p>
+        <div class="tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div>
+        <div class="presenters" style="margin-top:30px">
+          <p class="muted small" style="margin-bottom:10px">PRESENTED BY</p>
+          <p class="small" style="margin:0 0 5px">210824104009 — BHUVANESH M</p>
+          <p class="small" style="margin:0 0 5px">210824104043 — KUMARAN P</p>
+          <p class="small" style="margin:0 0 5px">210824104018 — GOKUL B</p>
+          <p class="small" style="margin:0">210824104011 — CLIFFORD DANIEL C</p>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 520 500" role="img" aria-label="Monochrome laptop and portfolio wireframe illustration">
+          <g fill="none" stroke="#fff" stroke-width="2">
+            <rect x="82" y="56" width="350" height="270" rx="16"/>
+            <path d="M82 94h350"/>
+            <circle cx="103" cy="75" r="3"/><circle cx="117" cy="75" r="3"/><circle cx="131" cy="75" r="3"/>
+            <rect x="108" y="120" width="98" height="118" rx="8"/>
+            <circle cx="157" cy="157" r="18"/>
+            <path d="M127 210c5-24 55-24 60 0"/>
+            <path d="M230 128h160M230 145h128M230 179h143M230 196h112"/>
+            <rect x="230" y="222" width="78" height="24" rx="5"/>
+            <rect x="318" y="222" width="78" height="24" rx="5"/>
+            <path d="M50 350h415l-37 42H87z"/>
+            <path d="M210 364h95"/>
+            <path d="M66 430h388M98 448h325" stroke="#555"/>
+            <circle cx="418" cy="126" r="34" stroke="#777"/>
+            <path d="M418 108v36M400 126h36" stroke="#777"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>Personal Portfolio Website</span><span>01 — Introduction</span></div>
+  </section>
+
+  <section class="slide" data-title="Problem & Objectives">
+    <div class="eyebrow">02 / Problem & Objectives</div>
+    <h2>From static résumé<br>to interactive presence.</h2>
+    <p class="lead">A conventional résumé communicates experience, but rarely demonstrates how a developer builds for the web.</p>
+    <div class="grid2" style="margin-top:18px">
+      <div class="panel">
+        <div class="icon"><svg viewBox="0 0 56 56"><rect x="10" y="5" width="36" height="46" rx="3"/><path d="M18 16h20M18 23h20M18 30h13M18 39h20"/></svg></div>
+        <h3>The challenge</h3>
+        <ul>
+          <li>Static profiles offer limited interaction.</li>
+          <li>Project links and professional details can be scattered across platforms.</li>
+          <li>Responsive design and browser behavior are difficult to demonstrate in a document.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="icon"><svg viewBox="0 0 56 56"><rect x="4" y="7" width="48" height="34" rx="4"/><path d="M18 49h20M28 41v8M13 17h30M13 23h17"/><circle cx="39" cy="31" r="5"/></svg></div>
+        <h3>Project objectives</h3>
+        <ul>
+          <li>Centralize profile, skills, education, experience, and projects.</li>
+          <li>Build an intuitive, responsive interface for multiple screen sizes.</li>
+          <li>Add navigation, interactive behavior, and client-side validation.</li>
+          <li>Publish the website through GitHub Pages.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer"><span>Personal Portfolio Website</span><span>02 — Why it matters</span></div>
+  </section>
+
+  <section class="slide" data-title="Technology Stack">
+    <div class="eyebrow">03 / Technology Stack</div>
+    <h2>Three core technologies.<br>One cohesive experience.</h2>
+    <p class="lead">Each technology has a distinct role in creating a maintainable, responsive client-side website.</p>
+    <div class="grid3" style="margin-top:20px; flex:1">
+      <div class="panel">
+        <div class="icon"><svg viewBox="0 0 56 56"><path d="M9 5h38l-4 42-15 5-15-5z"/><path d="M18 16h21l-1 7H19l1 7h17l-2 11-7 2-7-2-.5-5"/></svg></div>
+        <h3>HTML5</h3><p>Defines semantic structure and organizes the portfolio into meaningful sections.</p><p class="muted small">Structure · Content · Accessibility</p>
+      </div>
+      <div class="panel">
+        <div class="icon"><svg viewBox="0 0 56 56"><path d="M28 4l23 13-8 28-15 7L13 45 5 17z"/><path d="M18 20h20M16 28h24M20 36h16"/></svg></div>
+        <h3>CSS3</h3><p>Controls visual styling, typography, layout, spacing, and screen-size adaptation.</p><p class="muted small">Flexbox · Grid · Media queries</p>
+      </div>
+      <div class="panel">
+        <div class="icon"><svg viewBox="0 0 56 56"><path d="M8 7h40v42H8z"/><path d="M17 20l-6 7 6 7M27 37l7-20M39 20l6 7-6 7"/></svg></div>
+        <h3>JavaScript</h3><p>Adds behavior such as menu toggling, smooth navigation, DOM interaction, and form validation.</p><p class="muted small">Events · DOM · Validation</p>
+      </div>
+    </div>
+    <div class="rule"></div>
+    <p class="small muted">Supporting tools: Visual Studio Code for editing · Git/GitHub for version control · GitHub Pages for deployment.</p>
+    <div class="footer"><span>Personal Portfolio Website</span><span>03 — Technology</span></div>
+  </section>
+
+  <section class="slide" data-title="Architecture & Modules">
+    <div class="eyebrow">04 / Architecture & Modules</div>
+    <h2>Lightweight by design.</h2>
+    <p class="lead">The main portfolio experience runs in the browser; a dedicated backend or database is not required for its core presentation.</p>
+    <div class="flow">
+      <div class="flow-item"><strong>User</strong><span>Visits the site</span></div><div class="arrow">→</div>
+      <div class="flow-item"><strong>Browser</strong><span>Renders the page</span></div><div class="arrow">→</div>
+      <div class="flow-item"><strong>HTML + CSS</strong><span>Structure & layout</span></div><div class="arrow">→</div>
+      <div class="flow-item"><strong>JavaScript</strong><span>Interaction</span></div>
+    </div>
+    <div class="two-col" style="margin-top:32px; flex:1">
+      <div>
+        <h3>Functional modules</h3>
+        <ul class="checklist">
+          <li>Home / Hero — introduction and primary actions</li>
+          <li>About — background and interests</li>
+          <li>Skills — technical capabilities</li>
+          <li>Projects — descriptions and repository links</li>
+          <li>Experience & Education — professional journey</li>
+          <li>Contact & Footer — communication and social links</li>
+        </ul>
+      </div>
+      <div class="mock-browser">
+        <div class="browser-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="muted small" style="margin-left:10px">portfolio / preview</span></div>
+        <div class="browser-body">
+          <div class="browser-nav"><span>Portfolio</span><span>About&nbsp;&nbsp; Skills&nbsp;&nbsp; Projects&nbsp;&nbsp; Contact</span></div>
+          <div class="browser-name">Hello, I'm a<br>developer.</div>
+          <div class="browser-line"></div><div class="browser-line short"></div>
+          <span class="browser-cta">EXPLORE PROJECTS ↗</span>
+          <div class="mini-cards"><div class="mini-card"><b>01 / Skills</b><span></span></div><div class="mini-card"><b>02 / Projects</b><span></span></div><div class="mini-card"><b>03 / Contact</b><span></span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>Personal Portfolio Website</span><span>04 — How it works</span></div>
+  </section>
+
+  <section class="slide" data-title="Implementation & Results">
+    <div class="eyebrow">05 / Implementation & Results</div>
+    <h2>Built for real-world access.</h2>
+    <div class="two-col" style="flex:1">
+      <div>
+        <h3>Implementation</h3>
+        <ul class="checklist">
+          <li><b>index.html</b> — semantic webpage structure</li>
+          <li><b>styles.css</b> — styling and responsive layouts</li>
+          <li><b>script.js</b> — navigation and interaction</li>
+          <li>Responsive techniques support desktop, tablet, and mobile layouts.</li>
+          <li>GitHub Pages publishes the static website online.</li>
+        </ul>
+        <h3 style="margin-top:24px">Outcomes</h3>
+        <p>A centralized profile, organized project showcase, direct repository links, and a responsive browser-based experience.</p>
+        <p class="small"><b>Live website:</b><br><a href="https://bhuvanesh-m-dev.github.io/assignment-work/personal-portfolio/" target="_blank" rel="noopener">bhuvanesh-m-dev.github.io/assignment-work/personal-portfolio/</a></p>
+      </div>
+      <div class="outline-art">
+        <svg viewBox="0 0 440 390" role="img" aria-label="Responsive website across desktop tablet and mobile">
+          <g stroke="#fff" fill="none" stroke-width="2">
+            <rect x="22" y="44" width="300" height="210" rx="12"/>
+            <path d="M22 76h300M36 60h6m8 0h6m8 0h6"/>
+            <rect x="42" y="94" width="95" height="140" rx="5"/>
+            <circle cx="90" cy="130" r="16"/><path d="M64 179c5-23 47-23 52 0"/>
+            <path d="M155 105h143M155 122h120M155 153h132M155 170h106"/>
+            <rect x="155" y="193" width="70" height="22" rx="4"/>
+            <path d="M4 271h336l-27 22H31z"/>
+            <rect x="284" y="170" width="100" height="155" rx="12" fill="#000"/>
+            <path d="M284 195h100"/>
+            <circle cx="334" cy="181" r="2"/>
+            <path d="M299 214h69M299 226h52"/>
+            <rect x="300" y="243" width="68" height="32" rx="4"/>
+            <rect x="300" y="284" width="68" height="25" rx="4"/>
+            <rect x="105" y="300" width="130" height="74" rx="8"/>
+            <path d="M105 318h130"/>
+            <path d="M118 333h45M118 343h74M118 355h56"/>
+          </g>
+          <g fill="#aaa" font-size="10" letter-spacing="1"><text x="23" y="30">DESKTOP</text><text x="284" y="155">MOBILE</text><text x="105" y="290">TABLET</text></g>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>Personal Portfolio Website</span><span>05 — Deliverables</span></div>
+  </section>
+
+  <section class="slide" data-title="Conclusion">
+    <div class="eyebrow">06 / Conclusion & Future Scope</div>
+    <div class="hero">
+      <div>
+        <h2>A professional presence,<br>built for the web.</h2>
+        <p class="lead">The project applies foundational frontend technologies to create a structured, responsive, and interactive developer portfolio.</p>
+        <div class="rule"></div>
+        <h3>Future enhancements</h3>
+        <ul>
+          <li>Backend-powered contact form submissions</li>
+          <li>Database-backed content management</li>
+          <li>Project filtering and analytics</li>
+          <li>Further accessibility, SEO, and performance improvements</li>
+        </ul>
+        <div class="tags"><span class="tag">Thank You</span><span class="tag">Questions & Answers</span></div>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 450 420" role="img" aria-label="Minimal line art of a globe with connected nodes">
+          <g fill="none" stroke="#fff" stroke-width="1.7">
+            <circle cx="225" cy="200" r="135"/>
+            <ellipse cx="225" cy="200" rx="60" ry="135"/>
+            <ellipse cx="225" cy="200" rx="135" ry="52"/>
+            <path d="M95 160h260M95 240h260M225 65v270"/>
+            <circle cx="225" cy="65" r="6" fill="#000"/>
+            <circle cx="360" cy="200" r="6" fill="#000"/>
+            <circle cx="225" cy="335" r="6" fill="#000"/>
+            <circle cx="90" cy="200" r="6" fill="#000"/>
+            <path d="M225 65L335 110M360 200l-25 95M225 335L115 290M90 200l25-90" stroke="#777" stroke-dasharray="5 7"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>Personal Portfolio Website</span><span>06 — Thank you</span></div>
+  </section>
+</main>
+<button class="fullscreen-button" id="fullscreen" aria-label="Enter fullscreen presentation" title="Enter fullscreen">⛶ Fullscreen</button>
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const progress = document.getElementById('progress');
+  let current = 0;
+  function showSlide(index) {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+    progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+    document.title = `${slides[current].dataset.title} — Personal Portfolio Website`;
+  }
+  const fullscreenButton = document.getElementById('fullscreen');
+  async function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      // Fullscreen may be unavailable in some embedded or restricted browsers.
+      alert('Fullscreen is not available in this browser context. Try opening this HTML file directly in your browser.');
+    }
+  }
+  fullscreenButton.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => {
+    const isFullscreen = Boolean(document.fullscreenElement);
+    fullscreenButton.textContent = isFullscreen ? '⛶ Exit Fullscreen' : '⛶ Fullscreen';
+    fullscreenButton.title = isFullscreen ? 'Exit fullscreen (or press Esc)' : 'Enter fullscreen';
+    fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen presentation' : 'Enter fullscreen presentation');
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); showSlide(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); showSlide(current - 1); }
+  });
+</script>
+</body>
+</html>
